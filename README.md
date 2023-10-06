@@ -10,8 +10,8 @@ Python3
 
 Libraries
 <br>
--** Pandas** <br>
--** Openpyxl**
+- **Pandas** <br>
+- **Openpyxl**
 
 
 ### Walkthrough of Mathematical functions
