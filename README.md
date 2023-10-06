@@ -5,7 +5,7 @@ Second Version of stratifying chunks data into desired size (Proportional)
 Given a set of big data. Aim is to reduce the size of big data into smaller size such that the proportions of the data is not random but ratioed from the original set of data
 
 
-###Language & Libraries Used
+### Language & Libraries Used
 Python3
 
 Libraries
