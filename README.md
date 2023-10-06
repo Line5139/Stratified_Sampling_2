@@ -9,7 +9,8 @@ Given a set of big data. Aim is to reduce the size of big data into smaller size
 Python3
 
 Libraries
--** Pandas**
+<br>
+-** Pandas** <br>
 -** Openpyxl**
 
 
