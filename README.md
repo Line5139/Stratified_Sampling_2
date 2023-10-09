@@ -11,8 +11,13 @@ Python3
 Libraries
 <br>
 - **Pandas** <br>
-- **Openpyxl**
+- **Openpyxl** <br>
+- **SkLearn** <br>
 
 
-### Walkthrough of Mathematical functions
+### Each Version of Stratified_Sampling
+
+Version of **Stratified_Sampling_SK**
+- Included module scikit-Learn. Machine Learning Module.
+  - As a result, produced a more evenly distribution of result for each stratum.
 
