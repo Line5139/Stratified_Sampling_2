@@ -8,9 +8,7 @@ This script reads data from an Excel file, performs stratified sampling based on
 - **scikit-learn**
 You can install the required packages using pip:
 
-\```bash
-pip install pandas matplotlib scikit-learn
-\```
+\```bash pip install pandas matplotlib scikit-learn \```
 
 ## Usage
 
@@ -18,9 +16,7 @@ pip install pandas matplotlib scikit-learn
 2. Modify the `file_path` variable in the script to point to your Excel file.
 3. If you wish to stratify based on a different column, modify the strata_column variable.
 4. Run the script:
-\```bash
-python stratified_sampling_script.py
-\```
+\```bash python stratified_sampling_script.py \```
 
 1. The script will create an output Excel file (sampled_data_SK_Employment.xlsx by default) with two sheets:
 - Sampled Data: Contains the stratified samples.
