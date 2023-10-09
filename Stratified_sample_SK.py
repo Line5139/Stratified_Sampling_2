@@ -7,14 +7,14 @@ file_path = 'test_file.xlsx'
 df = pd.read_excel(file_path)
 
 # Assuming you want to stratify based on a column named 'category'
-strata_column = 'Q1 (Age)'
+strata_column = 'Q11 (Employment Status)'
 
 # Step 2: Perform proportionate stratified sampling to obtain 10 samples using sklearn
-sample_size = len(df) // 10
+sample_size = len(df) // 17
 samples, _ = train_test_split(df, train_size=sample_size, stratify=df[strata_column])
 
 # Step 3: Write the 10 samples and the distribution data to a new Excel file
-output_path = 'sampled_data_SK_1.xlsx'
+output_path = 'sampled_data_SK_Employment.xlsx'
 with pd.ExcelWriter(output_path) as writer:
     samples.to_excel(writer, sheet_name='Sampled Data', index=False)
     
