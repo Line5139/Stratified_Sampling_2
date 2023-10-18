@@ -8,7 +8,7 @@ This script reads data from an Excel file, performs stratified sampling based on
 - **scikit-learn**
 You can install the required packages using pip:
 
-```bash pip install pandas matplotlib scikit-learn ```
+``` pip install pandas matplotlib scikit-learn ```
 
 ## Overview of the Code
 1. **Reading the Excel File**: The script starts by reading data from an Excel file into a pandas DataFrame.
@@ -18,7 +18,7 @@ You can install the required packages using pip:
 
 ## Usage
 To use the script, call the sample_and_plot_from_excel function with appropriate parameters.
-```bash sample_and_plot_from_excel(input_file, output_file, strata_column, num_samples, sheet_name=None)```
+```sample_and_plot_from_excel(input_file, output_file, strata_column, num_samples, sheet_name=None)```
 
 ### Parameters
 `input_file`: Path to the input Excel file.
@@ -28,7 +28,7 @@ To use the script, call the sample_and_plot_from_excel function with appropriate
 `sheet_name` (Optional): Name of the sheet in the Excel file to read. Defaults to the first sheet if none is specified.
 
 ### Example
-```bash sample_and_plot_from_excel('test_file.xlsx', 'output.xlsx', 'Q1 (Age)', 15) ```
+```sample_and_plot_from_excel('test_file.xlsx', 'output.xlsx', 'Q1 (Age)', 15) ```
 1. The script will create an output Excel file `output.xlsx` with two sheets:
 - Sampled Data: Containing the 15 stratified samples. In this case Q1 (Age).
 - Distribution: Compares the distribution of the original dataset to the sampled data.
