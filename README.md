@@ -2,7 +2,7 @@
 This script reads data from an Excel file, performs stratified sampling based on a specified column, and then writes the sampled data along with its distribution to a new Excel file. Additionally, it plots a comparison of the distributions of the original and sampled data.
 
 ## Requirements
-**Python 3.x**
+- **Python 3.x**
 - **pandas**
 - **matplotlib**
 - **scikit-learn**
