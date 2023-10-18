@@ -6,7 +6,9 @@ This script reads data from an Excel file, performs stratified sampling based on
 - **pandas**
 - **matplotlib**
 - **scikit-learn**
-You can install the required packages using pip:
+<br>
+1) Install python through the main Website
+2) Install the required packages using pip:
 
 ``` pip install pandas matplotlib scikit-learn ```
 
