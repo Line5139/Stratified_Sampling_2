@@ -103,6 +103,8 @@ ttk.Button(frame, text="Browse", command=lambda: select_file_path(input_entry)).
 ttk.Label(frame, text="Output File:").grid(column=1, row=2, sticky=tk.W)
 output_entry = ttk.Entry(frame, width=40)
 output_entry.grid(column=2, row=2, sticky=(tk.W, tk.E))
+ttk.Button(frame, text="Browse", command=lambda: select_file_path(output_entry, saving=True)).grid(column=3, row=2, sticky=tk.W)
+
 
 # Strata column selection
 ttk.Label(frame, text="Strata Column:").grid(column=1, row=3, sticky=tk.W)
