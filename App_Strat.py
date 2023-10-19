@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 import threading
 from Stratified_sample_SK import sample_and_plot_from_excel
+import os
 
 # Define the KAF Investment Banking color theme
 KAF_COLOR = "#800020"  # A shade of burgundy
