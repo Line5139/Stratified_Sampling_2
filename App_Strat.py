@@ -32,8 +32,6 @@ def select_file_path(entry_widget, saving=False):
         entry_widget.delete(0, tk.END)  # Remove current text
         entry_widget.insert(0, file_path)  # Insert the file path
 
-
-
 def start_processing(input_entry, output_entry, column_entry, sample_entry, sheet_entry, log_text):
     """Start the data processing with inputs from the GUI."""
     input_file = input_entry.get()
