@@ -6,6 +6,17 @@ from sklearn.model_selection import train_test_split
 import threading
 from Stratified_sample_SK import sample_and_plot_from_excel
 import os
+import ctypes
+
+try:
+    # Try to enable DPI awareness for the current process on Windows.
+    # The following constant comes from the Windows SDK.
+    PROCESS_SYSTEM_DPI_AWARE = 1
+    ctypes.windll.shcore.SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE)
+except (AttributeError, OSError):
+    # This call may fail when not on Windows or on older versions of Windows.
+    # In this case, we just skip enabling DPI awareness.
+    pass
 
 def select_file_path(entry_widget, saving=False):
     """Populate the entry widget with the user-selected file path."""
@@ -87,23 +98,22 @@ def create_footer(parent, trademark_text, bg_color):
     return footer
 
 
-# Set up the main application window
+# Application window
 root = tk.Tk()
 root.title("KAF DB Sampling App")
-root.geometry("512x530")  # increased height to accommodate header and footer
-root.resizable(False, False)
+root.geometry("800x650") 
 
-# Define the KAF Investment Banking color theme
+# KAF Colour
 KAF_COLOR = "#61232e"
 root.config(bg=KAF_COLOR)
 
-# Create a main frame that will contain other widgets and frames
+# Main Frame, Widgets
 main_frame = ttk.Frame(root)
 main_frame.grid(sticky=(tk.W, tk.E, tk.N, tk.S))  # Use grid here
 
-# Create footer
-footer_frame = create_footer(main_frame, "© 2023 Haiqal @ KAF", KAF_COLOR)  # Attach the footer to the main frame
-footer_frame.grid(row=2, column=0, sticky=tk.EW)  # Place the footer in the grid
+# Footer
+footer_frame = create_footer(main_frame, "© 2023 Haiqal @ KAF", KAF_COLOR)  # Attach footer to the main frame
+footer_frame.grid(row=2, column=0, sticky=tk.EW)  # Footer in the grid
 
 style = ttk.Style(root)
 style.theme_use("default")
