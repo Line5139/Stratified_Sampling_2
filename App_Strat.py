@@ -7,9 +7,6 @@ import threading
 from Stratified_sample_SK import sample_and_plot_from_excel
 import os
 
-# Define the KAF Investment Banking color theme
-KAF_COLOR = "#800020"
-
 def select_file_path(entry_widget, saving=False):
     """Populate the entry widget with the user-selected file path."""
     # Get the directory of the current script.
@@ -76,22 +73,52 @@ def sample_and_plot(input_file, output_file, strata_column, num_samples, sheet_n
         messagebox.showerror("Error", str(e))
         log_text.insert(tk.END, f"Error: {str(e)}\n")
 
+
+def create_footer(parent, trademark_text, bg_color):
+    """Create a footer with a trademark text."""
+    footer = tk.Frame(parent, bg=bg_color)  # Set the background color here
+    footer.grid(row=2, column=0, sticky="ew")  # The footer expands horizontally (east-west)
+    
+    parent.grid_columnconfigure(0, weight=1)  # Allows the footer to expand horizontally with the window resizing
+    parent.grid_rowconfigure(2, weight=0)  # The footer's height doesn't change with the window resizing
+    
+    # Place the trademark text
+    label = tk.Label(footer, text=trademark_text, bg=bg_color, fg="white")  # Set the text color to white
+    label.pack()
+
+    return footer
+
+
 # Set up the main application window
 root = tk.Tk()
-root.title("KAF Investment Sampling Tool")
-root.geometry("700x500")
+root.title("KAF DB Sampling App")
+root.geometry("512x530")  # increased height to accommodate header and footer
+root.resizable(False, False)
+
+# Define the KAF Investment Banking color theme
+KAF_COLOR = "#61232e"
 root.config(bg=KAF_COLOR)
+
+# Create a main frame that will contain other widgets and frames
+main_frame = ttk.Frame(root)
+main_frame.grid(sticky=(tk.W, tk.E, tk.N, tk.S))  # Use grid here
+
+# Create footer
+footer_frame = create_footer(main_frame, "© 2023 Haiqal @ KAF", KAF_COLOR)  # Attach the footer to the main frame
+footer_frame.grid(row=2, column=0, sticky=tk.EW)  # Place the footer in the grid
 
 style = ttk.Style(root)
 style.theme_use("default")
-style.configure("TButton", background=KAF_COLOR, foreground="white")
-style.configure("TLabel", background=KAF_COLOR, foreground="white")
+style.configure("TButton", background=KAF_COLOR, foreground="white", highlightbackground= "#61221e")
+style.configure("TLabel", background=KAF_COLOR, foreground="white", highlightbackground= "#61221e")
 style.configure("TFrame", background=KAF_COLOR)
 
-frame = ttk.Frame(root, padding="12 12 12 12")
-frame.grid(column=0, row=0, sticky=(tk.W, tk.E, tk.N, tk.S))
-frame.columnconfigure(0, weight=1)
-frame.rowconfigure(0, weight=1)
+# Create content frame and add it to the grid of the main frame
+frame = ttk.Frame(main_frame, padding="12 12 12 12")
+frame.grid(row=1, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+
+main_frame.columnconfigure(0, weight=1)
+main_frame.rowconfigure(1, weight=1) 
 
 # Input file selection
 ttk.Label(frame, text="Input File:").grid(column=1, row=1, sticky=tk.W)
