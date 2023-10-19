@@ -8,19 +8,33 @@ from Stratified_sample_SK import sample_and_plot_from_excel
 import os
 
 # Define the KAF Investment Banking color theme
-KAF_COLOR = "#800020"  # A shade of burgundy
+KAF_COLOR = "#800020"
 
 def select_file_path(entry_widget, saving=False):
     """Populate the entry widget with the user-selected file path."""
-    if saving:
-        # This is for saving a file (output), so we use 'asksaveasfilename'
-        file_path = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=[("Excel files", "*.xlsx;*.xls"), ("All files", "*.*")])
-    else:
-        # This is for opening a file (input), so we use 'askopenfilename'
-        file_path = filedialog.askopenfilename()
+    # Get the directory of the current script.
+    current_directory = os.path.dirname(os.path.realpath(__file__))
 
-    entry_widget.delete(0, tk.END)  # Remove current text
-    entry_widget.insert(0, file_path)  # Insert the file path
+    if saving:
+        # This is for saving a file (output), so we use 'asksaveasfilename'.
+        # We set 'initialdir' to the script's directory.
+        file_path = filedialog.asksaveasfilename(
+            initialdir=current_directory,
+            defaultextension=".xlsx",
+            filetypes=[("Excel files", "*.xlsx;*.xls"), ("All files", "*.*")]
+        )
+    else:
+        # This is for opening a file (input), so we use 'askopenfilename'.
+        # We set 'initialdir' to the script's directory.
+        file_path = filedialog.askopenfilename(
+            initialdir=current_directory
+        )
+
+    # If a file path is selected, update the entry widget.
+    if file_path:
+        entry_widget.delete(0, tk.END)  # Remove current text
+        entry_widget.insert(0, file_path)  # Insert the file path
+
 
 
 def start_processing(input_entry, output_entry, column_entry, sample_entry, sheet_entry, log_text):
