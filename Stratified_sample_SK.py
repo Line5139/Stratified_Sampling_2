@@ -62,4 +62,4 @@ def sample_and_plot_from_excel(input_file, output_file, strata_column, num_sampl
     plt.show()
 
 # Usage example (assuming you have an Excel file named 'test_file.xlsx' with a 'Category' column):
-# sample_and_plot_from_excel('test_file.xlsx', 'output.xlsx', 'Q1 (Age)', 15)
+sample_and_plot_from_excel('output_excel/test_file_30K__.xlsx', 'output_30.xlsx', 'Age', 25000)
