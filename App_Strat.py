@@ -9,13 +9,13 @@ import os
 import ctypes
 
 try:
-    # Try to enable DPI awareness for the current process on Windows.
+    # Enablement of DPI Awareness. Help with OpenAI
     # The following constant comes from the Windows SDK.
     PROCESS_SYSTEM_DPI_AWARE = 1
     ctypes.windll.shcore.SetProcessDpiAwareness(PROCESS_SYSTEM_DPI_AWARE)
 except (AttributeError, OSError):
     # This call may fail when not on Windows or on older versions of Windows.
-    # In this case, we just skip enabling DPI awareness.
+    # Just skip enabling DPI awareness.
     pass
 
 def select_file_path(entry_widget, saving=False):
@@ -73,7 +73,7 @@ def sample_and_plot(input_file, output_file, strata_column, num_samples, sheet_n
         # Log start
         log_text.insert(tk.END, "Processing started...\n")
 
-        # Call the existing function, assuming it's defined correctly in 'Stratified_sample_SK.py'
+        # Call the existing function from 'Stratified_sample_SK.py'
         sample_and_plot_from_excel(input_file, output_file, strata_column, num_samples, sheet_name)
 
         # Log completion
