@@ -135,7 +135,7 @@ def save_to_excel(sampled_data, target_distributions, output_file_path):
 
 # Usage Example
 file_path = 'output_excel/test_file_30K__.xlsx'
-output_file_path = 'output_excel_v2/Modular_100_.xlsx'
+output_file_path = 'output_excel_v2/Modular_1_.xlsx'
 data = load_data(file_path)
 target_distributions = {
     'Age': {'18 - 24 years old': 22, '25 - 34 years old': 26, '35 - 44 years old': 17, '45 - 54 years old': 13, '55 - 64 years old': 13, '65 and above years old': 9},
@@ -151,8 +151,8 @@ total_samples = 3200
 sample_sizes = calculate_sample_sizes(target_distributions, total_samples)
 sampled_by_age = stratified_sampling(data, 'Age', sample_sizes)
 data = load_data('output_excel/test_file_30K__.xlsx')
-for _ in range(100):  # For example, 100 iterations
-    sampled_by_age = adjust_distribution(sampled_by_age, data , 'Ethnicity', target_distributions['Ethnicity'], total_samples)
-    sampled_by_age = adjust_distribution(sampled_by_age, data , 'Area', target_distributions['Area'], total_samples)
+# for _ in range(100):  # For example, 100 iterations
+sampled_by_age = adjust_distribution(sampled_by_age, data , 'Ethnicity', target_distributions['Ethnicity'], total_samples)
+sampled_by_age = adjust_distribution(sampled_by_age, data , 'Area', target_distributions['Area'], total_samples)
 adjusted_final = sampled_by_age
 save_to_excel(adjusted_final, target_distributions, output_file_path)

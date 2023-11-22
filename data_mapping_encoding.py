@@ -35,12 +35,12 @@ def encode_and_export_excel(input_file_path, output_file_path, target_distributi
     encoded_data.to_excel(output_file_path, index=False)
 
 # Example usage
-input_file_path = 'output_excel/test_file_30K__.xlsx'
-output_file_path = 'output_excel_v2/output_excel_file.xlsx'
+input_file_path = 'output_excel_v2/Modular_100_.xlsx'
+output_file_path = 'output_excel_v2/encoded_Modular_100_.xlsx'
 target_distributions = {
     'Age': {'18 - 24 years old': 22, '25 - 34 years old': 26, '35 - 44 years old': 17, '45 - 54 years old': 13, '55 - 64 years old': 13, '65 and above years old': 9},
     'Ethnicity': {'Chinese': 22, 'Malay': 53, 'Indian': 6, 'Non-Malay Bumiputera': 12, 'Sikh': 0.3, 'Others (Please Specify)': 7},
-    'Gender': {'Male': 48, 'Female': 52},
+    'Gender': {'Male': 48, 'Female': 52, 'Prefer Not To Say': 0},
     'State': {'Kedah': 6.73, 'Kelantan': 5.5, 'Perlis': 0.92, 'Terengganu': 3.67, 'WP Labuan': 0.31, 'Perak': 7.65, 'Negeri Sembilan': 3.67, 'Penang': 5.20, 'I am not in Malaysia at this moment': 0, 'Sabah': 10.40, 'WP Kuala Lumpur': 6.12,
               'WP Putrajaya': 0.31, 'Melaka': 3.06, 'Pahang': 4.89, 'Selangor': 21.41, 'Sarawak': 7.65, 'Johor': 12.23},
     'Area': {'Big city': 48, 'Small Town': 43, 'Rural': 9},
