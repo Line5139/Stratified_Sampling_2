@@ -8,8 +8,8 @@ def load_data(file_path):
     # Uses pandas to read an Excel file into a DataFrame
     return pd.read_excel(file_path)
 
-# Calculate sample sizes for stratified sampling
 
+# Calculate sample sizes for stratified sampling
 
 def calculate_sample_sizes(target_distributions, total_samples):
     """
@@ -18,12 +18,32 @@ def calculate_sample_sizes(target_distributions, total_samples):
     :param total_samples: Total number of samples to draw
     :return: Dictionary with calculated sample sizes for each group
     """
-    return {category: {group: int(total_samples * percent / 100)
-                       for group, percent in groups.items()}
-            for category, groups in target_distributions.items()}
+
+    # Initialize an empty dictionary to hold the calculated sample sizes
+    calculated_sample_sizes = {}
+
+    # Iterate over each category and its groups in the target distributions
+    for category, groups in target_distributions.items():
+
+        # Initialize a dictionary to hold the sample sizes for this category
+        category_sample_sizes = {}
+
+        # Iterate over each group in the category
+        for group, percent in groups.items():
+
+            # Calculate the sample size for this group
+            sample_size = int(total_samples * percent / 100)
+
+            # Add the calculated sample size to the category's dictionary
+            category_sample_sizes[group] = sample_size
+
+        # Add the category's sample sizes to the overall dictionary
+        calculated_sample_sizes[category] = category_sample_sizes
+
+    return calculated_sample_sizes
+
 
 # Perform stratified sampling for a given category
-
 
 def stratified_sampling(data, category, sample_sizes, random_state=42):
     """
@@ -42,8 +62,8 @@ def stratified_sampling(data, category, sample_sizes, random_state=42):
         sampled_data.append(sampled_stratum)
     return pd.concat(sampled_data)
 
-# Calculate the distance between two distributions
 
+# Calculate the distance between two distributions
 
 def distribution_distance(current_distribution, target_distribution):
     """
@@ -58,8 +78,39 @@ def distribution_distance(current_distribution, target_distribution):
         total_distance += abs(current_percent - target_percent)
     return total_distance
 
-# Iteratively adjust the distribution across multiple categories
+def adjust_distribution(sampled_data, original_data, category, target_distribution, total_samples, random_state=42):
+    """Adjust the distribution for a given category while maintaining unique data points and total sample size."""
+    # First, remove all samples of the specified category from the original dataset
+    remaining_data = original_data[~original_data.index.isin(
+        sampled_data.index)]
 
+    # Adjust the distribution within the sampled data
+    adjusted_samples = pd.DataFrame()
+    for group, target_percent in target_distribution.items():
+        required_samples = int(total_samples * target_percent / 100)
+        group_data = sampled_data[sampled_data[category] == group]
+        current_samples = len(group_data)
+
+        if current_samples > required_samples:
+            # Reduce samples if more than required
+            adjusted_group_data = group_data.sample(
+                n=required_samples, random_state=random_state, replace=False)
+        else:
+            # If the samples are less or equal to the requirement, add them as is
+            adjusted_group_data = group_data
+
+        adjusted_samples = pd.concat([adjusted_samples, adjusted_group_data])
+
+    # Add additional unique samples from remaining_data if total is less than 3200
+    if len(adjusted_samples) < total_samples:
+        additional_samples_needed = total_samples - len(adjusted_samples)
+        additional_samples = remaining_data.sample(
+            n=additional_samples_needed, random_state=random_state, replace=False)
+        adjusted_samples = pd.concat([adjusted_samples, additional_samples])
+
+    return adjusted_samples
+
+# Iteratively adjust the distribution across multiple categories
 
 def iteratively_adjust_distribution(data, original_data, categories, target_distributions, total_samples, max_iterations=10, tolerance=0.05, random_state=42):
     """
@@ -91,8 +142,8 @@ def iteratively_adjust_distribution(data, original_data, categories, target_dist
 
     return data
 
-# Prepare data for comparison between benchmark and sampled distributions
 
+# Prepare data for comparison between benchmark and sampled distributions
 
 def prepare_comparison_data(category, sampled_data, target_distributions):
     """
@@ -108,8 +159,8 @@ def prepare_comparison_data(category, sampled_data, target_distributions):
     sampled_dist.name = f'{category} - Sampled'
     return pd.concat([benchmark_dist, sampled_dist], axis=1)
 
-# Save the sampled data and distribution comparisons to an Excel file
 
+# Save the sampled data and distribution comparisons to an Excel file
 
 def save_to_excel(sampled_data, target_distributions, output_file_path):
     """
@@ -142,7 +193,7 @@ def save_to_excel(sampled_data, target_distributions, output_file_path):
 # Example usage of the functions
 # Define file paths
 file_path = 'output_excel/test_file_30K__.xlsx'
-output_file_path = 'output_excel_v2/OIA_Output_4percenttolerance_10000Iterations_StateInc.xlsx'
+output_file_path = 'output_excel_v2/OIA_Output_4percenttolerance_100Iterations_StateInc.xlsx'
 
 # Load data from the file
 data = load_data(file_path)
@@ -160,7 +211,6 @@ target_distributions = {
 }
 
 
-
 # Calculate total sample sizes for each category
 total_samples = 3200
 sample_sizes = calculate_sample_sizes(target_distributions, total_samples)
@@ -176,10 +226,22 @@ categories = ['Ethnicity', 'Area', 'Age', 'State']
 
 # Perform iterative adjustment
 adjusted_final = iteratively_adjust_distribution(
-    sampled_by_age, data, categories, target_distributions, total_samples, max_iterations=10000, tolerance=0.04)
+    sampled_by_age, data, categories, target_distributions, total_samples, max_iterations=100, tolerance=0.04)
 
 # Save the final adjusted data to an Excel file
 save_to_excel(adjusted_final, target_distributions, output_file_path)
+
+
+# def calculate_sample_sizes(target_distributions, total_samples):
+#     """
+#     Calculate sample sizes for each stratum in each category.
+#     :param target_distributions: Dictionary with target percentage distributions
+#     :param total_samples: Total number of samples to draw
+#     :return: Dictionary with calculated sample sizes for each group
+#     """
+#     return {category: {group: int(total_samples * percent / 100)
+#                        for group, percent in groups.items()}
+#             for category, groups in target_distributions.items()}
 
 
 # def adjust_distribution_test(sampled_data, category, target_distribution, total_samples, random_state=42):
@@ -216,39 +278,6 @@ save_to_excel(adjusted_final, target_distributions, output_file_path)
 #     return adjusted_samples
 
 # # This method ensures that the datapoints taken are 3200. By filling it the rest of the datapool with random samples
-
-
-# def adjust_distribution(sampled_data, original_data, category, target_distribution, total_samples, random_state=42):
-#     """Adjust the distribution for a given category while maintaining unique data points and total sample size."""
-#     # First, remove all samples of the specified category from the original dataset
-#     remaining_data = original_data[~original_data.index.isin(
-#         sampled_data.index)]
-
-#     # Adjust the distribution within the sampled data
-#     adjusted_samples = pd.DataFrame()
-#     for group, target_percent in target_distribution.items():
-#         required_samples = int(total_samples * target_percent / 100)
-#         group_data = sampled_data[sampled_data[category] == group]
-#         current_samples = len(group_data)
-
-#         if current_samples > required_samples:
-#             # Reduce samples if more than required
-#             adjusted_group_data = group_data.sample(
-#                 n=required_samples, random_state=random_state, replace=False)
-#         else:
-#             # If the samples are less or equal to the requirement, add them as is
-#             adjusted_group_data = group_data
-
-#         adjusted_samples = pd.concat([adjusted_samples, adjusted_group_data])
-
-#     # Add additional unique samples from remaining_data if total is less than 3200
-#     if len(adjusted_samples) < total_samples:
-#         additional_samples_needed = total_samples - len(adjusted_samples)
-#         additional_samples = remaining_data.sample(
-#             n=additional_samples_needed, random_state=random_state, replace=False)
-#         adjusted_samples = pd.concat([adjusted_samples, additional_samples])
-
-#     return adjusted_samples
 
 
 # def adjust_distribution_in_batches(sampled_data, category, target_distribution, total_samples, batch_size=500, random_state=42):
